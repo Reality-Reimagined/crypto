@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const COINGECKO_API = 'https://api.coingecko.com/api/v3';
-const CRYPTO_NEWS_API = 'https://cryptopanic.com/api/v1/posts';
+const CRYPTO_NEWS_API = 'https://cryptopanic.com/api/free/v1/posts';
 const NEWS_API_KEY = '82f8514cff057b36b5eb1a9e473777c3628b3662'; // Note: User needs to get their own API key
 
 // Cache implementations remain the same...
@@ -130,15 +130,20 @@ export const calculateBollingerBands = (prices: number[], period = 20, stdDev = 
   return bands;
 };
 
-// News API
-export const getNews = async (currencies = '', filter = 'important') => {
-  const response = await axios.get(CRYPTO_NEWS_API, {
-    params: {
-      auth_token: NEWS_API_KEY,
-      currencies,
-      filter,
-      public: true
-    }
-  });
+export const getNews = async () => {
+  const url = `${CRYPTO_NEWS_API}/?auth_token=${NEWS_API_KEY}&public=true`;
+  const response = await axios.get(url);
   return response.data.results;
 };
+// // News API
+// export const getNews = async (currencies = '', filter = 'important') => {
+//   const response = await axios.get(CRYPTO_NEWS_API, {
+//     params: {
+//       auth_token: NEWS_API_KEY,
+//       currencies,
+//       filter,
+//       public: true
+//     }
+//   });
+//   return response.data.results;
+// };
